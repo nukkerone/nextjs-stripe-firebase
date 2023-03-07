@@ -1,5 +1,6 @@
 import React from 'react';
-import { CacheProvider, ChakraProvider } from '../chakra';
+import { SessionProvider } from '../client-wrapped/next-auth';
+import { CacheProvider, ChakraProvider } from '../client-wrapped/chakra';
 
 type Props = {
   children: React.ReactNode;
@@ -12,9 +13,11 @@ export default function RootLayout({ children }: Props) {
         <title>Next.js</title>
       </head>
       <body>
-        <CacheProvider>
-          <ChakraProvider>{children}</ChakraProvider>
-        </CacheProvider>
+        <SessionProvider>
+          <CacheProvider>
+            <ChakraProvider>{children}</ChakraProvider>
+          </CacheProvider>
+        </SessionProvider>
       </body>
     </html>
   );

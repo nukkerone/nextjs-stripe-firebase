@@ -1,3 +1,4 @@
+
 export default function () {
-  return 'Hello world!';
+  return <p>Hello</p>;
 }
