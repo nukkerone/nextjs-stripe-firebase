@@ -18,5 +18,7 @@ This integration makes use of Next Auth package, the Google Authentication Provi
 
 - Add nextauth env variables (URL and SECRET)
 
+- Add middleware to restrict routes based on auth
+
 # Stripe Integration: Billing
 

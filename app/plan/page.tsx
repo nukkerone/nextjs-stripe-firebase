@@ -9,7 +9,10 @@ import {
   Box,
   Flex,
   Button,
+  Link,
 } from '@chakra-ui/react';
+
+import NextLink from 'next/link';
 
 export default function () {
   return (
@@ -51,9 +54,11 @@ export default function () {
           </Text>
         </CardBody>
         <CardFooter justifyContent="center">
-          <Button colorScheme="teal" size="lg">
-            Select
-          </Button>
+          <Link as={NextLink} href="/plan/basic">
+            <Button colorScheme="teal" size="lg">
+              Select
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </Flex>
