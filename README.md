@@ -16,6 +16,8 @@ This integration makes use of Next Auth package, the Google Authentication Provi
 
 - Update pages/api/auth/[...nextauth].js to use Google as provider
 
+- Use firebase adapter to store user in db, but also add strategy jwt to pages/api/auth/[...nextauth].js. To use firebase adapter, I also needed firebase admin and a service account. https://authjs.dev/reference/adapter/firebase
+
 - Add nextauth env variables (URL and SECRET)
 
 - Add middleware to restrict routes based on auth
