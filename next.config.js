@@ -6,7 +6,7 @@ module.exports = {
       {
         source: '/',
         destination: '/plan',
-        permanent: true,
+        permanent: false
       },
     ]
   },
