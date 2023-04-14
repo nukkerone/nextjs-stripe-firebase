@@ -24,3 +24,9 @@ This integration makes use of Next Auth package, the Google Authentication Provi
 
 # Stripe Integration: Billing
 
+- Activate Customer Portal in Stripe Dashboard, add Portal url as public env var
+
+- Add checkout session page
+
+- Add Webhooks to update database accordingly
+

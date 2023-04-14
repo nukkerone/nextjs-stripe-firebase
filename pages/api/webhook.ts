@@ -32,8 +32,6 @@ export default async function(req, res) {
     process.env.STRIPE_WEBHOOK_SECRET!
   );
 
-  //console.log('Event ', event);
-
   let session, subscription;
   switch (event.type) {
     case StripeWebhooks.Completed:
@@ -42,13 +40,10 @@ export default async function(req, res) {
       subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
       await onCheckoutCompleted(session, subscription);
-
-      console.log('Completed event ', event.type);
     break;
     case StripeWebhooks.SubscriptionDeleted:
       subscription = event.data.object as Stripe.Subscription;
-      console.log('SubscriptionDeleted event ', subscription);
-      onSubscriptionDeleted(subscription);
+      await onSubscriptionDeleted(subscription);
     break;
     case StripeWebhooks.AsyncPaymentSuccess:
       console.log('AsyncPaymentSuccess event ', event.id);
@@ -75,13 +70,18 @@ async function onCheckoutCompleted(session: Stripe.Checkout.Session, subscriptio
     periodEndsAt: subscription.current_period_end,
   }
 
-  const userId = session.client_reference_id;
+  // I can assume that the client_reference_id is always set
+  const userId = session.client_reference_id!;
 
   await db.collection('subscriptions').doc(userId).set(subscriptionData, { merge: true });
-  await db.collection('users').doc(userId).update({ customerId: session.customer });
+  await db.collection('users').doc(userId).update({ customerId: session.customer as string });
 }
 
 async function onSubscriptionDeleted(subscription: Stripe.Subscription) {
-  const userId = subscription.customer as string;
+  const customerId = subscription.customer as string;
+  const userId = await db.collection('users').where('customerId', '==', customerId).get().then(snapshot => {
+    return snapshot.docs[0].id;
+  });
   await db.collection('subscriptions').doc(userId).delete();
+  await db.collection('users').doc(userId).update({ customerId: null });
 }
