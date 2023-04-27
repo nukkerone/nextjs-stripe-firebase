@@ -1,7 +1,7 @@
 
 export type UserSubscription = {
   id: string; // user id
-  status: 'no_payment_required' | 'paid' | 'unpaid';
+  status: 'unpaid' | 'active' | 'canceled' | 'incomplete' | 'incomplete_expired' | 'past_due' | 'paused' | 'trialing';
   priceId: string;
   currency: string;
   interval: 'day' | 'month' | 'week' | 'year';
